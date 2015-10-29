@@ -1,17 +1,26 @@
 var User = require('../../models/user');
 
-exports.signup = function(req, res) {
+exports.postSignup = function(req, res) {
   var user = new User({
-    email: req.body.email,
+    username: req.body.username,
     password: req.body.password
   });
 
-  console.log('posted user:', user);
-
   user.save(function(err) {
-    if (err)
+    if (err) {
       res.send(err);
+    } else {
+      // User successfully added.
+      // Login and redirect to welcome page.
 
-    res.json({ message: 'New user added to the database!' });
+      // http://passportjs.org/docs/login
+      req.login(user, function(err){
+        if (err) { 
+          return next(err); 
+        } else {
+          return res.redirect('/welcome');
+        }
+      });
+    }
   });
 };

@@ -6,7 +6,10 @@ var Users = React.createClass({
   },
 	render: function(){
 		return (
-			<a href="/signup">Signup</a>
+      <ul>
+        <li><a href="/signup">Signup</a></li>
+        <li><a href="/login">Log in</a></li>
+      </ul>			
 		)
 	}
 });
