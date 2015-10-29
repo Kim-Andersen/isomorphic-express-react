@@ -23,13 +23,10 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
-var ReactApp = React.createFactory(require('./src/app/App'));
+// Confingure routes.
+require('./src/server/router')(app);
 
-app.get('/', function(req, res){
-	var reactHtml = ReactDOMServer.renderToString(ReactApp({}));
-  res.render('index.ejs', {reactOutput: reactHtml});
-});
-
+// Start the server.
 var listener = app.listen(config.port || 3000, function() {
   console.log('Listening on port '+listener.address().port)
 });
