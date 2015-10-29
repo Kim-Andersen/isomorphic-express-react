@@ -6,7 +6,7 @@ var Users = React.createClass({
   },
 	render: function(){
 		return (
-			<h4>Working</h4>
+			<a href="/signup">Signup</a>
 		)
 	}
 });

@@ -9,4 +9,8 @@ router.get('/', function(req, res){
   res.render('index.ejs', {reactOutput: reactHtml});
 });
 
+router.get('/signup', function(req, res){
+  res.render('signup.ejs');
+});
+
 module.exports = router;

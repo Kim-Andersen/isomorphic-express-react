@@ -9,7 +9,10 @@ var config = require('./config'),
 		methodOverride = require('method-override'),
 		morgan = require('morgan'),
 		path = require('path'),
-		livereload = require('livereload');
+		livereload = require('livereload'),
+		mongoose = require('mongoose');
+
+mongoose.connect(config.mongo.connectionString);
 
 app.set('view engine', 'ejs');
 
