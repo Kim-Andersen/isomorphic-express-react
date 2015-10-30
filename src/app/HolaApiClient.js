@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var jQuery = require('jquery');
 
 var HolaApiClient = function(options){
   if(!options) throw Error('Missing options parameter of type Object.');
@@ -11,7 +12,7 @@ var HolaApiClient = function(options){
   return new function(){
     self = this;
 
-    $.ajaxSetup({
+    jQuery.ajaxSetup({
       headers: {
         'x-access-token': opt.apiToken
       },
@@ -27,7 +28,7 @@ var HolaApiClient = function(options){
     });
 
     this.postStory = function(text, cb){
-      return $.ajax({
+      return jQuery.ajax({
         url: '/api/v1/'+opt.userId+'/stories',
         type: 'post',
         data: {
@@ -45,7 +46,7 @@ var HolaApiClient = function(options){
     }
 
     this.getMyStories = function(cb){
-      return $.get('/api/v1/'+opt.userId+'/stories', function(resp){
+      return jQuery.get('/api/v1/'+opt.userId+'/stories', function(resp){
         if(resp) {
           cb && cb(null, resp.stories);
         } else {

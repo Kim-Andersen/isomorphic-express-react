@@ -11,16 +11,14 @@
       };
       console.log(bootstrap.user.username +', you API token is '+ bootstrap.apiToken);
     </script>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   </head>
   <body>
-    <h1>Welcome, <%- user.username %></h1>
+    <div class="container">
+      <h1><%= user.username %></h1>
 
-    <div id="react-main-mount"><%- reactOutput %></div>
+      <div id="react-main-mount"><%- reactOutput %></div>
+    </div>
 
-    <!-- inject:js -->
-    <script src="static/vendors.js"></script>
     <script src="static/main.js"></script>
-    <!-- endinject -->
   </body>
 </html>

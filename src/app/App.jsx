@@ -54,8 +54,10 @@ var InlineStoryComposer = React.createClass({
     return (
       <div className="inline-post-composer">
         <form className="commentForm" onSubmit={this.handleSubmit}>
-          <textarea ref="text" placeholder="I've been working on..." className="form-control"></textarea>
-          <button type="submit">Publish</button>
+          <div className="form-group">
+            <textarea ref="text" placeholder="I've been working on..." className="form-control"></textarea>
+          </div>
+          <button type="submit" className="btn btn-default">Publish</button>
         </form>
       </div>
     )
@@ -70,9 +72,14 @@ var ReactApp = React.createClass({
   render: function () {
 
     return (
-    	<div>        
-        <InlineStoryComposer />
-      	<Stories />        
+    	<div className="row">
+        <div className="col-xs-12 col-md-6">
+          <InlineStoryComposer />
+      	  <Stories />
+        </div>
+        <div className="col-xs-12 col-md-6">
+          right
+        </div>
       </div>
     )
   }
