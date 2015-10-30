@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%- user.username %> | Hola</title>
+    <link rel="stylesheet" href="static/main.css"/>
+    <script type="text/javascript">
+    window.user = <%- JSON.stringify(user) %>;
+    </script>
+  </head>
+  <body>
+    <h1>username: <%- user.username %></h1>
+  </body>
+</html>

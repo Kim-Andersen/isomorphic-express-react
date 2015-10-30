@@ -4,6 +4,7 @@ var ReactDOMServer = require('react-dom/server');
 var ReactApp = React.createFactory(require('../app/App'));
 var authController = require('./controllers/auth');
 var signupController = require('./controllers/signup');
+var User = require('../models/user');
 
 module.exports = function(app){
 
@@ -24,8 +25,8 @@ module.exports = function(app){
 
 	app.post('/signup', signupController.postSignup);
   app.get('/signup', function(req, res){
-		  res.render('signup.ejs');
-		});
+	  res.render('signup.ejs');
+	});
 
   app.all(['/app','/app/*'], function ensureAuthenticated(req,res,next) {
   	console.log('ensureAuthenticated', req.isAuthenticated());
@@ -45,9 +46,20 @@ module.exports = function(app){
 	  });
 	});
 
-	/*
-		API
-	*/	
+	// API	
 	app.use('/api/v1', apiRouter);
 
+	// Dynamic username routes.
+	app.get('/:username', function(req, res){
+		console.log('username', req.params.username);
+		User.findOne({username: req.params.username}, function(err, user){
+			if(err){
+				res.render('error.ejs');
+			} else if(!user) {
+				res.render('404.ejs');
+			} else {
+				res.render('profile.ejs', {user: user});
+			}
+		});
+	});
 };
