@@ -26,4 +26,14 @@ router.post('/stories', function(req, res){
 	});
 });
 
+router.get('/stories', function(req, res){
+	Story.find({userId: req.user._id}, function(err, stories){
+		if(err){
+			return res.json({ success: false, message: err });
+		} else {
+			res.json({success: true, stories: stories});
+		}
+	});
+});
+
 module.exports = router;

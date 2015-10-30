@@ -59,6 +59,16 @@
               }
             });
           }
+
+          this.getMyStories = function(cb){
+            return $.get('/api/v1/'+self.userId+'/stories', function(resp){
+              if(resp) {
+                cb && cb(null, resp.stories);
+              } else {
+                cb && cb(resp.message);
+              }
+            });
+          };
         };
 
       };
@@ -69,6 +79,14 @@
         var api = new HolaApiClient({
           userId: bootstrap.user._id, 
           apiToken: bootstrap.apiToken
+        });
+
+        api.getMyStories(function(err, stories){
+          if(!err){
+            console.log('stories', stories);  
+          } else {
+            console.log('Sorry, your stories are not available at the moment.', err);
+          }          
         });
 
         api.postStory('my 11th story...', function(err, story){
