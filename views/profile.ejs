@@ -1,14 +1,9 @@
-<!doctype html>
-<html>
-  <head>
-    <title><%- user.username %> | Hola</title>
-    <link rel="stylesheet" href="static/main.css"/>
-    <link href='https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans' rel='stylesheet' type='text/css'>
-    <script type="text/javascript">
-    window.user = <%- JSON.stringify(user) %>;
-    </script>
-  </head>
-  <body>
-    <h1>username: <%- user.username %></h1>
-  </body>
-</html>
+<% include partials/header %>
+    
+<h1><%- user.username %></h1>
+
+<script type="text/javascript">
+window.user = <%- JSON.stringify(user) %>;
+</script>
+
+<% include partials/footer %>
