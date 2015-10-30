@@ -32,8 +32,8 @@ var rename = require("gulp-rename");
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
 var dependencies = [
-  'react',
-  'react/addons'
+  //'react',
+  //'react/addons'
 ];
 
 var path = {

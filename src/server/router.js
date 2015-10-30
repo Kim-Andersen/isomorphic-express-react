@@ -13,8 +13,7 @@ module.exports = function(app){
 		if (req.isAuthenticated()) {
 			res.redirect('/app');
 		} else {
-			var reactHtml = ReactDOMServer.renderToString(ReactApp({}));
-	  	res.render('index.ejs', {reactOutput: reactHtml});	
+	  	res.render('index.ejs');
 		}		
 	});
 
@@ -38,7 +37,12 @@ module.exports = function(app){
 	});
 
 	app.get('/app', function(req, res){
-	  res.render('app.ejs', {user: req.user, apiToken: req.user.generateApiToken(app.get('apiTokenSecret'))});
+		var reactHtml = ReactDOMServer.renderToString(ReactApp({}));
+	  res.render('app.ejs', {
+	  	reactOutput: reactHtml,
+	  	user: req.user, 
+	  	apiToken: req.user.generateApiToken(app.get('apiTokenSecret'))
+	  });
 	});
 
 	/*
