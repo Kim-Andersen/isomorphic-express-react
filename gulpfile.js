@@ -133,6 +133,7 @@ gulp.task('browserifyTask', function () {
       dependencies.splice(dependencies.indexOf('react-addons'), 1);
     }
 
+    /*
     var vendorsBundler = browserify({
       debug: true,
       require: dependencies
@@ -149,6 +150,7 @@ gulp.task('browserifyTask', function () {
       .pipe(notify(function () {
         console.log('VENDORS bundle built in ' + (Date.now() - start) + 'ms');
       })); 
+    */
   }
 });
 
