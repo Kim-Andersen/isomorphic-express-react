@@ -14,7 +14,8 @@ var config = require('./config'),
 		passport = require('passport'),
 		cookieParser = require('cookie-parser'),
 		session = require('express-session'),
-		MongoStore = require('connect-mongo')(session);
+		MongoStore = require('connect-mongo')(session),
+		compression = require('compression');
 
 app.set('apiTokenSecret', 'lE239(e_$V18_b3.dy2ZJX\lg156h');
 
@@ -22,10 +23,10 @@ mongoose.connect(config.mongo.connectionString);
 
 app.set('view engine', 'ejs');
 
+app.use(compression());
 app.use(express.static(__dirname + config.publicDir));                 // set the static files location. /public/img will be /img for users
 app.set('views', path.join(__dirname, config.viewsDir));
 app.use('/static', express.static(__dirname + config.publicDir));
-
 app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
