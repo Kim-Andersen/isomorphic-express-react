@@ -1,5 +1,5 @@
 module.exports = {
-	livereload: true,
+	livereload: false,
 	port: 3000,
 	viewsDir: '/views',
 	publicDir: '/public',

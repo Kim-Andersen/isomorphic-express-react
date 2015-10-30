@@ -54,7 +54,7 @@ var InlineStoryComposer = React.createClass({
     return (
       <div className="inline-post-composer">
         <form className="commentForm" onSubmit={this.handleSubmit}>
-          <textarea ref="text"></textarea>
+          <textarea ref="text" placeholder="I've been working on..." className="form-control"></textarea>
           <button type="submit">Publish</button>
         </form>
       </div>

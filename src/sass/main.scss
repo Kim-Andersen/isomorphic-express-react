@@ -1,1 +1,54 @@
-body {background:#fafafa;}
+@import 'bootstrap-vars';
+@import 'bootstrap-custom';
+
+html{
+	font-size: 62.5%;
+}
+
+body {
+	background-color: #f7f7f7;
+	font-family: 'Noto Serif', serif;
+	font-size: 1.8rem;
+	color: #3A4145;
+	text-rendering: optimizeLegibility;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-family: 'Open Sans', sans-serif;
+	text-rendering: optimizeLegibility;
+	font-weight: 500;
+}
+h1 {
+	font-size:3.8rem;
+}
+
+/*	Forms
+============================================*/
+label {
+	display: inline-block;
+  max-width: 100%;
+  margin-bottom: 7px;
+  color: #2a2a2a;
+  font-weight: 500;
+}
+
+.form-control {
+	width: 100%;
+  height: 50px;
+  padding: 6px 12px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d1d1d1;
+  border-radius: 3px;
+  transition: .2s all ease-in-out;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.08);
+  -webkit-appearance: none;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: 23.8px;
+  outline: none;
+
+  &:focus {
+  	border: 1px solid rgba(81, 203, 238, 1);
+  }
+}

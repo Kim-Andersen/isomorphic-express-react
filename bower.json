@@ -1,0 +1,27 @@
+{
+  "name": "isomorphic-boiler",
+  "description": "Isomorphic Express+React boilerplate",
+  "main": "src/server.js",
+  "authors": [
+    "Kim Andersen @ DownDogCode"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "express",
+    "react",
+    "isomorphic",
+    "boilerplate"
+  ],
+  "homepage": "https://github.com/Kim-Andersen/isomorphic-express-react",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5"
+  }
+}
