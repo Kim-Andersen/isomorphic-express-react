@@ -1,3 +1,4 @@
+var express = require('express');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var ReactApp = React.createFactory(require('../app/App'));
@@ -6,9 +7,15 @@ var signupController = require('./controllers/signup');
 
 module.exports = function(app){
 
+	var apiRouter = require('./routers/api-v1')(app);
+
 	app.get('/', function(req, res){
-		var reactHtml = ReactDOMServer.renderToString(ReactApp({}));
-	  res.render('index.ejs', {reactOutput: reactHtml});
+		if (req.isAuthenticated()) {
+			res.redirect('/app');
+		} else {
+			var reactHtml = ReactDOMServer.renderToString(ReactApp({}));
+	  	res.render('index.ejs', {reactOutput: reactHtml});	
+		}		
 	});
 
 	app.get('/login', function(req, res){
@@ -31,7 +38,12 @@ module.exports = function(app){
 	});
 
 	app.get('/app', function(req, res){
-	  res.render('app.ejs', {user: req.user || {}});
+	  res.render('app.ejs', {user: req.user, apiToken: req.user.generateApiToken(app.get('apiTokenSecret'))});
 	});
+
+	/*
+		API
+	*/	
+	app.use('/api/v1', apiRouter);
 
 };

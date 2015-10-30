@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var jwt = require('jsonwebtoken');
 
 // Define our user schema
 var UserSchema = new mongoose.Schema({
@@ -38,6 +39,15 @@ UserSchema.methods.verifyPassword = function(password, cb) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
+};
+
+UserSchema.methods.generateApiToken = function(apiTokenSecret){
+  // if user is found and password is right create a token
+  var token = jwt.sign(this, apiTokenSecret, {
+    expiresIn: 60*60*24 // seconds
+  });
+
+  return token;
 };
 
 // Export the Mongoose model

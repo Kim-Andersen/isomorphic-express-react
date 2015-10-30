@@ -7,5 +7,78 @@
   <body>
     <h1>Welcome, <%- user.username %></h1>
 
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+    	window.bootstrap = {
+    		user: <%- JSON.stringify(user) %>,
+    		apiToken: '<%- apiToken %>'
+    	};
+
+    	console.log(bootstrap.user.username +', you API token is '+ bootstrap.apiToken);
+
+      var HolaApiClient = function(opt){
+        if(!opt) throw Error('Missing options parameter of type Object.');
+        if(!opt.userId) throw Error('Missing parameter options.userId.');
+        if(!opt.apiToken) throw Error('Missing parameter options.apiToken.');
+
+        var self;
+
+        return new function(){
+          self = this;
+          $.extend(this, opt);
+
+          $.ajaxSetup({
+            headers: {
+              'x-access-token': self.apiToken
+            },
+            dataType: 'json',
+            timeout: 1000*10,
+            error: function(xhr, textStatus, errorThrown){
+              console.log('Api request failed.', {
+                status: xhr.status + ' ' + errorThrown,
+                state: xhr.state(),
+                error: xhr.responseJSON
+              });
+            }
+          });
+
+          this.postStory = function(text, cb){
+            return $.ajax({
+              url: '/api/v1/'+self.userId+'/stories',
+              type: 'post',
+              data: {
+                text: text
+              },
+              success: function(resp){
+                if(resp.success){
+                  cb && cb(null, resp.data);
+                } else {
+                  //console.error('Failed to post story.', resp.message);
+                  cb && cb(resp.message);
+                }
+              }
+            });
+          }
+        };
+
+      };
+      
+
+      $(function(){
+        // Instanitate new api client.
+        var api = new HolaApiClient({
+          userId: bootstrap.user._id, 
+          apiToken: bootstrap.apiToken
+        });
+
+        api.postStory('my 11th story...', function(err, story){
+          if(err){
+            console.log('Story not posted', err);
+          } else {
+            console.log('Story posted ok.', story);
+          }          
+        });
+      });
+    </script>
   </body>
 </html>

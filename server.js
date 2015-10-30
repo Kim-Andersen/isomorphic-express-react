@@ -16,6 +16,8 @@ var config = require('./config'),
 		session = require('express-session'),
 		MongoStore = require('connect-mongo')(session);
 
+app.set('apiTokenSecret', 'lE239(e_$V18_b3.dy2ZJX\lg156h');
+
 mongoose.connect(config.mongo.connectionString);
 
 app.set('view engine', 'ejs');
