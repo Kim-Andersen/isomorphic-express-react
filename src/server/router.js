@@ -16,19 +16,18 @@ module.exports = function(app){
 		});
 	};
 
-	// Facebook auth.
-	app.get('/auth/facebook', passport.authenticate('facebook'));
-	app.get('/auth/facebook/callback', _authenticateAuthCallback('facebook'));
+	['facebook', 'twitter', 'linkedin'].forEach(function(provider){
+		app.get('/auth/'+provider, passport.authenticate(provider));
+		app.get('/auth/'+provider+'/callback', _authenticateAuthCallback(provider));	
+	});
 
-	// Twitter auth
-	app.get('/auth/twitter', passport.authenticate('twitter'));
-	app.get('/auth/twitter/callback', _authenticateAuthCallback('twitter'));
-
+	// Login page.
 	app.get('/login', function(req, res){
 	  res.render('login.ejs');
 	});
 	//app.post('/login', authController.authenticate);
 
+	// Signup page.
 	app.post('/signup', signupController.postSignup);
   app.get('/signup', function(req, res){
 	  res.render('signup.ejs');

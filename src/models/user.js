@@ -29,6 +29,16 @@ var UserSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: false
+  },
+  linkedinId: {
+    type: String,
+    unique: true,
+    required: false
+  },
+  twitterId: {
+    type: String,
+    unique: true,
+    required: false
   }
 });
 

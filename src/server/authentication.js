@@ -2,6 +2,7 @@ var passport = require('passport'),
     //LocalStrategy = require('passport-local').Strategy,
     TwitterStrategy = require('passport-twitter').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
+    LinkedInStrategy = require('passport-linkedin').Strategy,
     User = require('../models/user'),
     _ = require('lodash');
 
@@ -76,6 +77,43 @@ module.exports = function(oauthConfig){
             if(err) return done(err, null);
             else {
               console.log('New Twitter user added to database.');
+              return done(null, user);
+            }
+          });
+        };
+      });
+    }
+  ));
+
+  // LinkedInStrategy auth middleware.
+  passport.use(new LinkedInStrategy({
+    consumerKey: oauthConfig.linkedin.consumerKey,
+    consumerSecret: oauthConfig.linkedin.consumerSecret,
+    callbackURL: oauthConfig.linkedin.callbackURL
+    },
+    function(accessToken, refreshToken, profile, done) {
+      console.log('LinkedIn auth callback:', accessToken, refreshToken, profile);
+      User.findOne({ linkedinId: profile.id }, function(err, user) {
+        if(err) {
+          console.log('Error trying to lookup up user from twitterId', profile.id, err);
+          return done(err, null);
+        }
+        else if(user){
+          console.log('Returning user authenticated with LinkedIn. Move along, nothing to see here.');
+          return done(null, user);
+        } 
+        else {
+          console.log('New user authenticated with LinkedIn. Adding to database...');
+          var user = new User({
+            loginProvider: 'linkedin',
+            linkedinId: profile.id,
+            name: profile.displayName
+          });
+          
+          user.save(function(err){
+            if(err) return done(err, null);
+            else {
+              console.log('New LinkedIn user added to database.');
               return done(null, user);
             }
           });
