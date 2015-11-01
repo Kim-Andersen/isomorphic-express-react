@@ -39,6 +39,16 @@ var UserSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: false
+  },
+  oauthAccessToken: {
+    type: String,
+    unique: true,
+    required: false
+  },
+  oauthRefreshToken: {
+    type: String,
+    unique: true,
+    required: false
   }
 });
 

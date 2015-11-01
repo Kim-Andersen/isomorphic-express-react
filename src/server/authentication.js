@@ -29,6 +29,8 @@ module.exports = function(oauthConfig){
           else {
             console.log('New user authenticated with Facebook. Adding to database...');
             var user = new User({
+              oauthAccessToken: accessToken,
+              oauthRefreshToken: refreshToken,
               loginProvider: 'facebook',
               facebookId: profile.id,
               name: profile.displayName
@@ -68,6 +70,8 @@ module.exports = function(oauthConfig){
         else {
           console.log('New user authenticated with Twitter. Adding to database...');
           var user = new User({
+            oauthAccessToken: accessToken,
+            oauthRefreshToken: refreshToken,
             loginProvider: 'twitter',
             twitterId: profile.id,
             name: profile.displayName
@@ -105,6 +109,8 @@ module.exports = function(oauthConfig){
         else {
           console.log('New user authenticated with LinkedIn. Adding to database...');
           var user = new User({
+            oauthAccessToken: accessToken,
+            oauthRefreshToken: refreshToken,
             loginProvider: 'linkedin',
             linkedinId: profile.id,
             name: profile.displayName

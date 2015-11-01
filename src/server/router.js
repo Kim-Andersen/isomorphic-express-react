@@ -16,6 +16,7 @@ module.exports = function(app){
 		});
 	};
 
+	// Social auth routes.
 	['facebook', 'twitter', 'linkedin'].forEach(function(provider){
 		app.get('/auth/'+provider, passport.authenticate(provider));
 		app.get('/auth/'+provider+'/callback', _authenticateAuthCallback(provider));	
