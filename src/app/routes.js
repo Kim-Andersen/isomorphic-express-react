@@ -9,6 +9,7 @@ module.exports = function(App){
 	return (
 		<Router history={history.createHashHistory({queryKey: false})}>
 			<Route path="/" component={App}>
+				<IndexRoute component={App.Home} />
 		  	<Route path="home" component={App.Home} />
 		  </Route>
 	  </Router>
