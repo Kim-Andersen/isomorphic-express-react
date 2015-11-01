@@ -1,8 +1,9 @@
 var express = require('express');
+var passport = require('passport');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var App = React.createFactory(require('../app/App'));
-var authController = require('./controllers/auth');
+//var authController = require('./controllers/auth');
 var signupController = require('./controllers/signup');
 var User = require('../models/user');
 
@@ -10,10 +11,15 @@ module.exports = function(app){
 
 	var apiRouter = require('./routers/api-v1')(app);
 
+	app.get('/auth/facebook', passport.authenticate('facebook'));
+	app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
+	 res.redirect('/');
+	});
+
 	app.get('/login', function(req, res){
 	  res.render('login.ejs');
 	});
-	app.post('/login', authController.authenticate);
+	//app.post('/login', authController.authenticate);
 
 	app.post('/signup', signupController.postSignup);
   app.get('/signup', function(req, res){

@@ -16,11 +16,8 @@ var config = require('./config'),
 		session = require('express-session'),
 		MongoStore = require('connect-mongo')(session),
 		compression = require('compression'),
-		TwitterStrategy = require('passport-twitter').Strategy,
-		FacebookStrategy = require('passport-facebook').Strategy;
 		oauthConfig = require('./oauth'),
-		User = require('./src/models/user'),
-		_ = require('lodash');
+		authentication = require('./src/server/authentication')(oauthConfig);
 
 app.set('apiTokenSecret', 'lE239(e_$V18_b3.dy2ZJX\lg156h');
 
@@ -50,68 +47,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Facebook auth.
-passport.use(new FacebookStrategy({
-	clientID: oauthConfig.facebook.clientID,
-	clientSecret: oauthConfig.facebook.clientSecret,
-	callbackURL: oauthConfig.facebook.callbackURL
-}, 
-	function(accessToken, refreshToken, profile, done) {
-		console.log('Facebook auth callback:', accessToken, refreshToken, profile);
-		process.nextTick(function () {
-			User.findOne({ facebookId: profile.id }, function (err, user) {
-				if(err) {
-					console.log('Error trying to lookup up user from facebookId', profile.id, err);
-					return done(err, null);
-				}
-				else if(user){
-					console.log('Returning user authenticated with Facebook. Move along, nothing to see here.');
-					return done(null, user);
-				} 
-				else {
-					console.log('New user authenticated with Facebook. Adding to database...');
-					var user = new User();
-					user.loginProvider = 'facebook';
-					user.name = profile.displayName;
-					user.facebookId = profile.id;
-					user.save(function(err){
-						if(err) return done(err, null);
-						else {
-							console.log('New Facebook user was added to database.');
-							return done(null, user);
-						}
-					});
-				}
-	      
-	    });
-		});
-	}
-));
-
-app.get('/auth/facebook', passport.authenticate('facebook'), function(req, res){
-
-});
-
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
- res.redirect('/');
-});
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function(id, done) {
-	if(_.isObject(id)) id = id._id;
-
-  User.findById(id, function(err, user){
-    if (err) {
-    	console.log('Failed to deserialize user.', id, err);
-    	done(err, null)
-    }
-    else if (!user) done(null, null);
-    else done(null, user);    
- })
-});
 
 // Confingure routes.
 require('./src/server/router')(app);
