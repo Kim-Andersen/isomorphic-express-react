@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 
 // Define our user schema
 var UserSchema = new mongoose.Schema({
-  added: { 
+  created: { 
     type: Date, 
     default: Date.now, 
     required: true

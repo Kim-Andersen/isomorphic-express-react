@@ -9,12 +9,20 @@ var User = require('../models/user');
 
 module.exports = function(app){
 
-	var apiRouter = require('./routers/api-v1')(app);
+	var _authenticateAuthCallback = function(provider){
+		return passport.authenticate(provider, { 
+			successRedirect: '/',
+			failureRedirect: '/login' 
+		});
+	};
 
+	// Facebook auth.
 	app.get('/auth/facebook', passport.authenticate('facebook'));
-	app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
-	 res.redirect('/');
-	});
+	app.get('/auth/facebook/callback', _authenticateAuthCallback('facebook'));
+
+	// Twitter auth
+	app.get('/auth/twitter', passport.authenticate('twitter'));
+	app.get('/auth/twitter/callback', _authenticateAuthCallback('twitter'));
 
 	app.get('/login', function(req, res){
 	  res.render('login.ejs');
@@ -35,11 +43,10 @@ module.exports = function(app){
 	  }
 	});
 
-	// API	
-	app.use('/api/v1', apiRouter);
+	// API
+	app.use('/api/v1', require('./routers/api-v1')(app));
 
-	// Dynamic username routes.
-	
+	// Public profile.	
 	app.get('/:username', function(req, res){
 		console.log('username', req.params.username);
 		User.findOne({username: req.params.username}, function(err, user){

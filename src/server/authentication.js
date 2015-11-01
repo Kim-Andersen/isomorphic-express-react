@@ -27,20 +27,59 @@ module.exports = function(oauthConfig){
           } 
           else {
             console.log('New user authenticated with Facebook. Adding to database...');
-            var user = new User();
-            user.loginProvider = 'facebook';
-            user.name = profile.displayName;
-            user.facebookId = profile.id;
+            var user = new User({
+              loginProvider: 'facebook',
+              facebookId: profile.id,
+              name: profile.displayName
+            });
+            
             user.save(function(err){
               if(err) return done(err, null);
               else {
-                console.log('New Facebook user was added to database.');
+                console.log('New Facebook user added to database.');
                 return done(null, user);
               }
             });
           }
           
         });
+      });
+    }
+  ));
+
+  // Twitter auth middleware.
+  passport.use(new TwitterStrategy({
+    consumerKey: oauthConfig.twitter.consumerKey,
+    consumerSecret: oauthConfig.twitter.consumerSecret,
+    callbackURL: oauthConfig.twitter.callbackURL
+    },
+    function(accessToken, refreshToken, profile, done) {
+      console.log('Twitter auth callback:', accessToken, refreshToken, profile);
+      User.findOne({ twitterId: profile.id }, function(err, user) {
+        if(err) {
+          console.log('Error trying to lookup up user from twitterId', profile.id, err);
+          return done(err, null);
+        }
+        else if(user){
+          console.log('Returning user authenticated with Twitter. Move along, nothing to see here.');
+          return done(null, user);
+        } 
+        else {
+          console.log('New user authenticated with Twitter. Adding to database...');
+          var user = new User({
+            loginProvider: 'twitter',
+            twitterId: profile.id,
+            name: profile.displayName
+          });
+          
+          user.save(function(err){
+            if(err) return done(err, null);
+            else {
+              console.log('New Twitter user added to database.');
+              return done(null, user);
+            }
+          });
+        };
       });
     }
   ));
