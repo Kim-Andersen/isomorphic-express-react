@@ -1,83 +1,21 @@
 var React = require('react');
+var ReactRouter = require('react-router');
 
-var Stories = React.createClass({
-  getInitialState: function(){
-    return {
-      stories: []
-    };
-  },
+var Link = ReactRouter.Link;
+var IndexLink = ReactRouter.IndexLink;
 
-	componentDidMount: function () {
-    app.api.getMyStories(function(err, stories){
-      if(!err){
-        this.setState({
-          stories: stories
-        });
-      }
-    }.bind(this));
-  },
-  
-	render: function(){
-    var storyNodes = this.state.stories.map(function (story) {
-      return (
-        <li key={story._id}>
-          {story.text}
-        </li>
-      );
-    });
+var App = React.createClass({
 
-    return (
-      <ul>
-        {storyNodes}
-      </ul>
-		)
-	}
-});
-
-var InlineStoryComposer = React.createClass({
-  
-  handleSubmit: function(event){
-    event.preventDefault();
-    var text = this.refs.text.value.trim();
-    if(!text){
-      return
-    };
-
-    app.api.postStory(text, function(err, story){
-      if(!err){
-        this.refs.text.value = '';
-      }
-    }.bind(this));
-  },
-
-  render: function(){
-    return (
-      <div className="inline-post-composer">
-        <form className="commentForm" onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <textarea ref="text" placeholder="I've been working on..." className="form-control"></textarea>
-          </div>
-          <button type="submit" className="btn btn-default">Publish</button>
-        </form>
-      </div>
-    )
-  }
-});
-
-var ReactApp = React.createClass({
-
-  componentDidMount: function () {
-    console.log('componentDidMount');
-  },
   render: function () {
-
     return (
-    	<div className="row">
-        <div className="col-xs-12 col-md-6">
-          <InlineStoryComposer />
-      	  <Stories />
+      <div className="row">
+        <div className="col-xs-12 col-sm-8">
+          <h1>App</h1>
+          <IndexLink to="/">Home</IndexLink><br/>
+          <Link to="/home">Compose story</Link>
+          {this.props.children}
         </div>
-        <div className="col-xs-12 col-md-6">
+        <div className="col-xs-12 col-sm-4">
           right
         </div>
       </div>
@@ -85,5 +23,6 @@ var ReactApp = React.createClass({
   }
 });
 
-/* Module.exports instead of normal dom mounting */
-module.exports = ReactApp;
+App.Home = require('./components/Home');
+
+module.exports = App;

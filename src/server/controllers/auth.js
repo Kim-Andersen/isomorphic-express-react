@@ -32,4 +32,4 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-exports.authenticate = passport.authenticate('local', {session: true, successRedirect: '/app/', failureRedirect: '/login'});
+exports.authenticate = passport.authenticate('local', {session: true, successRedirect: '/', failureRedirect: '/login'});

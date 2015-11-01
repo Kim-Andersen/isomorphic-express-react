@@ -19,5 +19,12 @@ app.api = require('./HolaApiClient')({
   apiToken: bootstrapData.apiToken
 });
 
+//var Router = ReactRouter.Router;
+//var Route = ReactRouter.Route;
+//var IndexRoute = ReactRouter.IndexRoute;
+var router = require('./routes')(App);
+
+DOM.render(router, document.getElementById('react-main-mount'));
+
 // Initialize the React app providing the bootstrap date injected into the app.ejs by the server.
-DOM.render(<App bootstrapData={bootstrapData}/>, document.getElementById('react-main-mount'));
+//DOM.render(<App bootstrapData={bootstrapData}/>, document.getElementById('react-main-mount'));
