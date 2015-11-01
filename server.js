@@ -72,6 +72,8 @@ passport.use(new FacebookStrategy({
 				else {
 					console.log('New user authenticated with Facebook. Adding to database...');
 					var user = new User();
+					user.loginProvider = 'facebook';
+					user.name = profile.displayName;
 					user.facebookId = profile.id;
 					user.save(function(err){
 						if(err) return done(err, null);
